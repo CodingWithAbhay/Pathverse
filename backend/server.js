@@ -23,19 +23,19 @@ app.use(helmet());
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
   : [
-      'http://localhost:5173',
-      'http://127.0.0.1:5173',
-      'http://localhost:5174',
-      'http://127.0.0.1:5174',
-      'http://localhost:3000',
-      'http://127.0.0.1:3000'
-    ];
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5174',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+  ];
 
 app.use(cors({
   origin: (origin, callback) => {
     // Allow guest requests with no origin (like server-to-server or Postman tool queries)
     if (!origin) return callback(null, true);
-    
+
     // Check if origin matches allowed domains
     const isAllowed = allowedOrigins.some(domain => {
       // Direct string comparison or domain match helpers
@@ -60,7 +60,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Health Check route
 app.get('/', (req, res) => {
-  res.status(200).json({ 
+  res.status(200).json({
     message: 'Backend Running',
     status: 'healthy',
     timestamp: new Date().toISOString()
@@ -72,6 +72,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/roadmap', roadmapRoutes);
 app.use('/api/resume', resumeRoutes);
 
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Pathverse API is running"
+  });
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found', message: `Cannot ${req.method} ${req.url}` });
@@ -80,11 +87,11 @@ app.use((req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('[Internal Error Log]', err.stack);
-  res.status(500).json({ 
-    error: 'Internal Server Error', 
-    message: process.env.NODE_ENV === 'production' 
-      ? 'An unexpected error occurred. Please try again later.' 
-      : err.message 
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: process.env.NODE_ENV === 'production'
+      ? 'An unexpected error occurred. Please try again later.'
+      : err.message
   });
 });
 
