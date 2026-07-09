@@ -75,7 +75,7 @@ app.use('/api/resume', resumeRoutes);
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Pathverse API is running"
+    message: "Pathvexa API is running"
   });
 });
 
