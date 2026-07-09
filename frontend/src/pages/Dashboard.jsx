@@ -124,7 +124,7 @@ export default function Dashboard() {
                   </span>
                 </div>
                 <h1 className="text-xl md:text-2xl font-black text-white tracking-tight">
-                  Welcome back, {user?.name?.split(' ')[0] || 'Learner'}! 👋
+                  Welcome, {user?.name?.split(' ')[0] || 'Learner'}! 👋
                 </h1>
                 {activeRoadmap ? (
                   <p className="text-sm text-[#78716C] mt-1 max-w-xl md:max-w-2xl leading-relaxed">
